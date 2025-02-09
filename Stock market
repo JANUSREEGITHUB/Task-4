@@ -4,13 +4,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Bell } from "lucide-react";
 import io from "socket.io-client";
-
-const socket = io("https://api.example.com"); // Replace with real WebSocket endpoint
-
+const socket = io("https://api.example.com"); 
 const StockDashboard = () => {
   const [stockData, setStockData] = useState([]);
   const [alert, setAlert] = useState("");
-
   useEffect(() => {
     socket.on("stock_update", (data) => {
       if (Array.isArray(data)) {
@@ -18,10 +15,8 @@ const StockDashboard = () => {
         checkAlerts(data);
       }
     });
-
     return () => socket.off("stock_update");
   }, []);
-
   const checkAlerts = (data) => {
     const significantChange = data.some(stock => Math.abs(stock.change || 0) > 5);
     if (significantChange) {
@@ -30,7 +25,6 @@ const StockDashboard = () => {
       setAlert("");
     }
   };
-
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold">Real-Time Stock Market Dashboard</h1>
@@ -56,5 +50,4 @@ const StockDashboard = () => {
     </div>
   );
 };
-
 export default StockDashboard;
